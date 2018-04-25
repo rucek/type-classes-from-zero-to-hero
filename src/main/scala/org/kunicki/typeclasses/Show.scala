@@ -11,7 +11,8 @@ object Show {
 
   implicit val showString: Show[String] = (t: String) => s"""string: "$t""""
 
-  def apply[T](implicit ev: Show[T]): Show[T] = ev
+//  def apply[T](implicit ev: Show[T]): Show[T] = ev
+  def apply[T: Show]: Show[T] = implicitly[Show[T]]
 }
 
 object ShowTest extends App {
