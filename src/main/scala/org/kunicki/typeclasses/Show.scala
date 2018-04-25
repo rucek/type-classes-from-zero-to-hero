@@ -13,6 +13,9 @@ object Show {
 
 //  def apply[T](implicit ev: Show[T]): Show[T] = ev
   def apply[T: Show]: Show[T] = implicitly[Show[T]]
+
+  implicit def showList[T](implicit ev: Show[T]): Show[List[T]] = (list: List[T]) =>
+    list.map(ev.show).mkString("list(", ", ", ")")
 }
 
 object ShowTest extends App {
@@ -24,4 +27,5 @@ object ShowTest extends App {
 
   println(Show[Int].show(42))
   println(Show[String].show("foo"))
+  println(Show[List[Int]].show(List(1, 2, 3)))
 }
