@@ -16,6 +16,11 @@ object Show {
 
   implicit def showList[T](implicit ev: Show[T]): Show[List[T]] = (list: List[T]) =>
     list.map(ev.show).mkString("list(", ", ", ")")
+
+  implicit class ShowSyntax[T: Show](t: T) {
+
+    def show: String = implicitly[Show[T]].show(t)
+  }
 }
 
 object ShowTest extends App {
@@ -28,4 +33,8 @@ object ShowTest extends App {
   println(Show[Int].show(42))
   println(Show[String].show("foo"))
   println(Show[List[Int]].show(List(1, 2, 3)))
+
+  println(42.show)
+  println("foo".show)
+  println((1 :: 2 :: 3 :: Nil).show)
 }
