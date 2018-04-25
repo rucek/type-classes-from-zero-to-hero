@@ -23,6 +23,16 @@ object Show {
   }
 }
 
+case class Wrapper[T](value: T)
+
+object Wrapper {
+
+  import Show._
+
+  implicit def showWrapper[T: Show]: Show[Wrapper[T]] = (wrapper: Wrapper[T]) =>
+    s"wrapped: ${wrapper.value.show}"
+}
+
 object ShowTest extends App {
 
   import Show._
@@ -37,4 +47,6 @@ object ShowTest extends App {
   println(42.show)
   println("foo".show)
   println((1 :: 2 :: 3 :: Nil).show)
+
+  println(Wrapper(1 :: 2 :: 3 :: Nil).show)
 }
